@@ -1,4 +1,8 @@
+import { useRef } from 'react'
+import { motion } from 'framer-motion'
+
 export default function Editor() {
+  const boundsRef = useRef<HTMLDivElement | null>(null)
   return (
     <main className="container mx-auto max-w-[1200px] px-4 my-12 pb-72">
       <div className="editor-container border-2 border-gray-200 rounded-xl overflow-hidden">
@@ -75,36 +79,51 @@ export default function Editor() {
         </div>
       </div>
 
-      <div className="chat-panel fixed left-0 right-0 bottom-0 bg-white border-t-2 border-gray-200 px-8 py-5">
-        <div className="chat-messages mb-4">
-          <div className="chat-message bg-gray-100 rounded-lg px-4 py-3 mb-2 max-w-[80%]">
-            <div className="message-label text-xs font-semibold text-purple-700 mb-1">Fi Assistant</div>
-            <div>What kind of document would you like to create?</div>
+      {/* Draggable chat window */}
+      <div ref={boundsRef} className="fixed inset-0 pointer-events-none">
+        <motion.div
+          className="pointer-events-auto bg-white border border-gray-200 shadow-xl rounded-xl w-[min(720px,95vw)]"
+          style={{ position: 'absolute', bottom: 20, right: 20 }}
+          drag
+          dragConstraints={boundsRef}
+          dragElastic={0.2}
+          dragMomentum={false}
+        >
+          <div className="cursor-move select-none px-4 py-2 border-b border-gray-200 rounded-t-xl bg-gray-50 text-sm text-gray-600">
+            Chat • Drag to move
           </div>
-          <div className="chat-message bg-purple-100 rounded-lg px-4 py-3 mb-2 ml-auto max-w-[80%]">
-            <div>Could you tell me more about what you need in the NDA?</div>
-          </div>
-          <div className="chat-message bg-gray-100 rounded-lg px-4 py-3 mb-2 max-w-[80%]">
-            <div className="message-label text-xs font-semibold text-purple-700 mb-1">Fi Assistant</div>
-            <div>I've generated an NDA based on our conversation. You can preview it by clicking the 'Preview Document' button in the sidebar to customize it further.</div>
-          </div>
-        </div>
+          <div className="px-6 py-5">
+            <div className="chat-messages mb-4">
+              <div className="chat-message bg-gray-100 rounded-lg px-4 py-3 mb-2 max-w-[80%]">
+                <div className="message-label text-xs font-semibold text-purple-700 mb-1">Fi Assistant</div>
+                <div>What kind of document would you like to create?</div>
+              </div>
+              <div className="chat-message bg-purple-100 rounded-lg px-4 py-3 mb-2 ml-auto max-w-[80%]">
+                <div>Could you tell me more about what you need in the NDA?</div>
+              </div>
+              <div className="chat-message bg-gray-100 rounded-lg px-4 py-3 mb-2 max-w-[80%]">
+                <div className="message-label text-xs font-semibold text-purple-700 mb-1">Fi Assistant</div>
+                <div>I've generated an NDA based on our conversation. You can preview it by clicking the 'Preview Document' button in the sidebar to customize it further.</div>
+              </div>
+            </div>
 
-        <div className="quick-actions flex gap-2 mb-3 flex-wrap">
-          <button className="quick-action-btn px-4 py-2 border-2 border-purple-700 text-purple-700 rounded-full text-sm font-semibold">NDA</button>
-          <button className="quick-action-btn px-4 py-2 border-2 border-purple-700 text-purple-700 rounded-full text-sm font-semibold">MUTUAL NDA</button>
-        </div>
+            <div className="quick-actions flex gap-2 mb-3 flex-wrap">
+              <button className="quick-action-btn px-4 py-2 border-2 border-purple-700 text-purple-700 rounded-full text-sm font-semibold">NDA</button>
+              <button className="quick-action-btn px-4 py-2 border-2 border-purple-700 text-purple-700 rounded-full text-sm font-semibold">MUTUAL NDA</button>
+            </div>
 
-        <div className="chat-input-container flex items-center gap-3">
-          <div className="fi-assistant flex items-center gap-2 text-purple-700 font-semibold">
-            <span>🤖</span>
-            <span>Fi Assistant - Legal document drafting</span>
+            <div className="chat-input-container flex items-center gap-3">
+              <div className="fi-assistant flex items-center gap-2 text-purple-700 font-semibold">
+                <span>🤖</span>
+                <span>Fi Assistant - Legal document drafting</span>
+              </div>
+              <input className="flex-1 text-input bg-white border-2 border-gray-200 rounded-md px-5 py-3" placeholder="Wow, great work..." />
+              <button className="send-button bg-purple-700 text-white px-5 py-3 rounded font-semibold">➤</button>
+            </div>
+
+            <p className="text-center text-gray-400 text-xs mt-2">💡 Need help? Ask Fi Assistant on the left</p>
           </div>
-          <input className="flex-1 text-input bg-white border-2 border-gray-200 rounded-md px-5 py-3" placeholder="Wow, great work..." />
-          <button className="send-button bg-purple-700 text-white px-5 py-3 rounded font-semibold">➤</button>
-        </div>
-
-        <p className="text-center text-gray-400 text-xs mt-2">💡 Need help? Ask Fi Assistant on the left</p>
+        </motion.div>
       </div>
 
       <div className="note mt-6 bg-amber-100 border-l-4 border-amber-500 p-4 rounded">
