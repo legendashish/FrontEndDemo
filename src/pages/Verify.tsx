@@ -1,6 +1,18 @@
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
 export default function Verify() {
+  const navigate = useNavigate()
+  const onBack = () => navigate('/')
+  const onVerify = () => navigate('/editor')
   return (
-    <main className="container mx-auto max-w-[1000px] px-4 my-12">
+    <motion.main
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+      className="container mx-auto max-w-[1000px] px-4 my-12"
+    >
       <div className="relative min-h-[600px] bg-gray-100 rounded-xl p-10">
         <div className="bg-gray-300/70 p-10 rounded-md max-w-3xl mx-auto opacity-70">
           <div className="text-center text-xl font-semibold mb-5">Document Preview Background</div>
@@ -28,8 +40,8 @@ export default function Verify() {
             </div>
 
             <div className="modal-buttons flex gap-3">
-              <button className="btn-secondary flex-1 py-3 border-2 border-gray-200 rounded font-semibold text-gray-700">Back</button>
-              <button className="btn-primary flex-1 py-3 bg-purple-700 text-white rounded font-semibold">Verify & Send</button>
+              <button onClick={onBack} className="btn-secondary flex-1 py-3 border-2 border-gray-200 rounded font-semibold text-gray-700">Back</button>
+              <button onClick={onVerify} className="btn-primary flex-1 py-3 bg-purple-700 text-white rounded font-semibold">Verify & Send</button>
             </div>
           </div>
         </div>
@@ -50,6 +62,6 @@ export default function Verify() {
           <li>Clear call-to-action buttons</li>
         </ul>
       </div>
-    </main>
+    </motion.main>
   )
 }

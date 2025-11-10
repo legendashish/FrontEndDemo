@@ -1,6 +1,20 @@
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
 export default function Home() {
+  const navigate = useNavigate()
+  const go = () => navigate('/loading')
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') go()
+  }
   return (
-    <main className="container mx-auto max-w-[900px] px-4 my-12">
+    <motion.main
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+      className="container mx-auto max-w-[900px] px-4 my-12"
+    >
       <h3 className="text-center text-2xl text-gray-800 font-medium mb-8">
         Hi, I'm Fi! Here for legal research & document drafting.
       </h3>
@@ -23,8 +37,8 @@ export default function Home() {
       </div>
 
       <div className="mt-4 flex items-center gap-3">
-        <input className="flex-1 text-input bg-white border-2 border-gray-200 rounded-md px-5 py-4 text-base" placeholder="Type here..." />
-        <button className="send-button bg-purple-700 text-white px-6 py-4 rounded-md font-semibold">➤</button>
+        <input onKeyDown={onKeyDown} className="flex-1 text-input bg-white border-2 border-gray-200 rounded-md px-5 py-4 text-base" placeholder="Type here..." />
+        <button onClick={go} className="send-button bg-purple-700 text-white px-6 py-4 rounded-md font-semibold">➤</button>
       </div>
 
       <div className="mt-6 bg-amber-100 border-l-4 border-amber-500 p-4 rounded">
@@ -36,6 +50,6 @@ export default function Home() {
           <li>Contextual sidebar with helpful tips</li>
         </ul>
       </div>
-    </main>
+    </motion.main>
   )
 }
